@@ -26,7 +26,8 @@ jobs:
 
     - name: Run tests
       run: npm test
-       pull-request:
+
+  pull-request:
     runs-on: ubuntu-latest
 
     steps:

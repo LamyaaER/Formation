@@ -9,31 +9,21 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
-    - name: Checkout code
-      uses: actions/checkout@v4
-
-    - name: Use Node.js 14
+    - uses: actions/checkout@v4
+    - name: Use Node.js 18
       uses: actions/setup-node@v3
       with:
-        node-version: 14.x
+        node-version: 18.x
         cache: 'npm'
-
-    - name: Install dependencies
-      run: npm ci
-
-    - name: Build project (if applicable)
-      run: npm run build --if-present
+    - run: npm ci
+    - run: npm run build --if-present
 
   pull-request-master:
     runs-on: ubuntu-latest
-
     steps:
-    - name: Checkout code
-      uses: actions/checkout@v4
-
-    - name: Create pull request
-      uses: vsoch/pull-request-action@master
-      env:
-        GITHUB_TOKEN: ${{ secrets.PULL_REQUEST_TOKEN }}
-        BRANCH-PREFIX: "main/"
-        PULL_REQUEST_BRANCH: "master"
+      - name: create pull request
+        uses: vsoch/pull-request-action@master
+        env:
+          GITHUB_TOKEN: ${{secrets.PULL_REQUEST_TOKEN}}
+          BRANCH-PREFIX: "main/"
+          PULL_REQUEST_BRANCH: "master"

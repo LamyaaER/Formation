@@ -27,3 +27,10 @@ jobs:
           GITHUB_TOKEN: ${{secrets.PULL_REQUEST_TOKEN}}
           BRANCH-PREFIX: "main/"
           PULL_REQUEST_BRANCH: "master"
+            - name: Debug environment variables
+      run: env
+
+    - name: Check GitHub Token Secret
+      run: echo "GITHUB_TOKEN is set"
+      env:
+        GITHUB_TOKEN: ${{ secrets.PULL_REQUEST_TOKEN }}

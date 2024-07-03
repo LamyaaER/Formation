@@ -27,3 +27,62 @@ jobs:
           GITHUB_TOKEN: ${{secrets.PULL_REQUEST_TOKEN}}
           BRANCH-PREFIX: "main/"
           PULL_REQUEST_BRANCH: "master"
+          build-and-deploy-qualif:
+    if: github.ref == 'refs/heads/develop'
+    runs-on: ubuntu-latest
+
+    steps:
+    - name: Checkout repository
+      uses: actions/checkout@v2
+
+    - name: Set up Node.js
+      uses: actions/setup-node@v2
+      with:
+        node-version: 18.x
+
+    - name: Install dependencies
+      run: npm install
+
+    - name: Run tests
+      run: npm test
+
+    - name: Build the app
+      run: npm run build
+
+    - name: Deploy to Azure Web App QUALIF
+      uses: azure/webapps-deploy@v2
+      with:
+        app-name: YOUR_APP_NAME_QUALIF
+        slot-name: 'production'
+        publish-profile: ${{ secrets.QUALIF }}
+        package: .
+
+  build-and-deploy-prod:
+    if: github.ref == 'refs/heads/main'
+    runs-on: ubuntu-latest
+
+    steps:
+    - name: Checkout repository
+      uses: actions/checkout@v2
+
+    - name: Set up Node.js
+      uses: actions/setup-node@v2
+      with:
+        node-version: 18.x
+
+    - name: Install dependencies
+      run: npm install
+
+    - name: Run tests
+      run: npm test
+
+    - name: Build the app
+      run: npm run build
+
+    - name: Deploy to Azure Web App PROD
+      uses: azure/webapps-deploy@v2
+      with:
+        app-name: YOUR_APP_NAME_PROD
+        slot-name: 'production'
+        publish-profile: ${{ secrets.PROD }}
+        package: .

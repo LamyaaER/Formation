@@ -79,7 +79,8 @@ jobs:
         app-name: ${{ env.AZURE_WEBAPP_NAME_FIRST }}
         publish-profile: ${{ secrets.DEV }}
         package: ${{ env.AZURE_WEBAPP_PACKAGE_PATH }}
-    deploy_second:
+
+  deploy_second:
     permissions:
       contents: none
     runs-on: ubuntu-latest
@@ -98,10 +99,11 @@ jobs:
       id: deploy-to-webapp
       uses: azure/webapps-deploy@v2
       with:
-        app-name: ${{ env.AZURE_WEBAPP_NAME_SECOND }}
+        app-name: ${{ env.AZURE_WEBAPP_SECOND }}
         publish-profile: ${{ secrets.PROD }}
         package: ${{ env.AZURE_WEBAPP_PACKAGE_PATH }}
-      deploy_third:
+
+  deploy_third:
     permissions:
       contents: none
     runs-on: ubuntu-latest
@@ -120,6 +122,6 @@ jobs:
       id: deploy-to-webapp
       uses: azure/webapps-deploy@v2
       with:
-        app-name: ${{ env.AZURE_WEBAPP_NAME_THIRD }}
+        app-name: ${{ env.AZURE_WEBAPP_THIRD }}
         publish-profile: ${{ secrets.QUALIF }}
         package: ${{ env.AZURE_WEBAPP_PACKAGE_PATH }}
